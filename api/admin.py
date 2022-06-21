@@ -1,9 +1,11 @@
 from django.contrib import admin
-from api.models import TransformedImage, TransformationRequest
+from api.models import UploadImage, UploadRequest
 
-class TransformationRequestAdmin(admin.ModelAdmin):
+
+class UploadRequestAdmin(admin.ModelAdmin):
   filter_horizontal = ('images',)
 
+
 # Register your models here.
-admin.site.register(TransformedImage)
-admin.site.register(TransformationRequest, TransformationRequestAdmin)
+admin.site.register(UploadImage)
+admin.site.register(UploadRequest, UploadRequestAdmin)

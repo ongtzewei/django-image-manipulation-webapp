@@ -1,2 +1,2 @@
-from .transformed_image_serializer import TransformedImageSerializer
-from .transformation_request_serializer import TransformationRequestSerializer
+from .image_serializer import ImageSerializer
+from .upload_serializer import UploadSerializer

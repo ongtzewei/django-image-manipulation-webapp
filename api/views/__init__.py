@@ -1,2 +1,2 @@
-from .transformed_image import TransformedImageViewSet
-from .transformation_request import TransformationRequestViewSet
+from .image import ImageViewSet
+from .upload import UploadViewSet
