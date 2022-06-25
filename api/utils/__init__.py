@@ -20,3 +20,19 @@ def image_upload_path(instance, filename):
     hashed_name = hashlib.md5(strpk+strtime).hexdigest()
     hashed_name = ''.join([hashed_name, file_ext])
     return os.path.normpath(os.path.join(strclass, hashed_path[0:2], hashed_path[2:4], hashed_path[4:6], hashed_name))
+
+
+import base64
+import urllib3
+from io import BytesIO
+from PIL import Image as PILImage
+
+http = urllib3.PoolManager()
+
+def retrieve_remote_image(url):
+    buffer = BytesIO()
+    response = http.request('GET', url)
+    image = PILImage.open(BytesIO(response.data))
+    image.save(buffer, format='png')
+    data = "data:image/png;base64,"+base64.b64encode(buffer.getvalue()).decode()
+    return data

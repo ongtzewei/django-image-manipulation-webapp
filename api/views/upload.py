@@ -20,7 +20,7 @@ class UploadViewSet(mixins.CreateModelMixin, GenericViewSet):
         for image_to_process in images_to_process:
           transformed_image = UploadViewSet.process_image(image_to_process)
           processed_images.append(transformed_image['id'])
-
+        
         serializer_data['images_id'] = bool(processed_images) and processed_images or None
         serializer = self.get_serializer(data=serializer_data)
         serializer.is_valid(raise_exception=True)
@@ -31,7 +31,6 @@ class UploadViewSet(mixins.CreateModelMixin, GenericViewSet):
     @classmethod
     def process_image(cls, image):
         serializer_data = {}
-        print(image)
         image_to_process = image
         serializer_data['source'] = isinstance(image_to_process, str) and \
           UploadImage.ImageSource.Remote or UploadImage.ImageSource.Upload
