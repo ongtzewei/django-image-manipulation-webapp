@@ -94,6 +94,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+FILE_UPLOAD_TEMP_DIR = '/tmp'
+
 STATIC_URL = 'static/'
 STATIC_ROOT = 'static'
 MEDIA_URL = 'media/'
@@ -111,3 +113,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
 }
+
+ALLOWED_IMAGE_FORMATS = config('ALLOWED_IMAGE_FORMATS').split(',')

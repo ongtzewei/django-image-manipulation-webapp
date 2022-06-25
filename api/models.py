@@ -14,7 +14,7 @@ class UploadImage(models.Model):
   # original_file is either an image uploaded via a POST request or retrieved from a URL
   source_path = models.URLField(null=True, blank=True)
   original_file = models.ImageField(upload_to=image_upload_path, max_length=255)
-  transformed_file = models.ImageField(upload_to=image_upload_path, max_length=255)
+  transformed_file = models.ImageField(upload_to=image_upload_path, max_length=255, null=True, blank=True)
   created_on = models.DateTimeField(auto_now_add=True)
   last_modified = models.DateTimeField(auto_now=True)
 

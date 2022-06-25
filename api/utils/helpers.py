@@ -10,7 +10,10 @@ class Base64ImageField(Base64ImageField):
   def to_internal_value(self, data):
     if isinstance(data, str):
       # link to remote image is provided
-      data = retrieve_remote_image(data)
+      try:
+        data = retrieve_remote_image(data)
+      except Exception as e:
+        print(e)      
     else:
       # file is uploaded or is existing image from system
       buffer = BytesIO()
@@ -18,3 +21,4 @@ class Base64ImageField(Base64ImageField):
       image.save(buffer, format='png')
       data = "data:image/png;base64,"+base64.b64encode(buffer.getvalue()).decode()
     return super(Base64ImageField, self).to_internal_value(data)
+

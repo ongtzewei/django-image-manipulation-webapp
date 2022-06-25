@@ -22,6 +22,11 @@ def image_upload_path(instance, filename):
     return os.path.normpath(os.path.join(strclass, hashed_path[0:2], hashed_path[2:4], hashed_path[4:6], hashed_name))
 
 
+def generate_random_filename():
+    timestamp = str(time()).encode('utf-8')
+    return hashlib.md5(timestamp).hexdigest()
+
+
 import base64
 import urllib3
 from io import BytesIO
@@ -30,6 +35,7 @@ from PIL import Image as PILImage
 http = urllib3.PoolManager()
 
 def retrieve_remote_image(url):
+    print(url)
     buffer = BytesIO()
     response = http.request('GET', url)
     image = PILImage.open(BytesIO(response.data))

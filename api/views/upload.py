@@ -40,7 +40,7 @@ class UploadViewSet(mixins.CreateModelMixin, GenericViewSet):
           serializer_data['source_path'] = image_to_process
         
         serializer_data['original_file'] = image_to_process
-        serializer_data['transformed_file'] = image_to_process
+        serializer_data['transformed_file'] = None
         image_serializer = ImageSerializer(data=serializer_data)
         image_serializer.is_valid(raise_exception=True)
         image_serializer.save()
