@@ -17,4 +17,3 @@ class Base64ImageField(Base64ImageField):
             image.save(buffer, format='png')
             data = "data:image/png;base64,"+base64.b64encode(buffer.getvalue()).decode()
         return super(Base64ImageField, self).to_internal_value(data)
-

@@ -6,7 +6,7 @@ from api.serializers import ImageSerializer
 class UploadSerializer(serializers.ModelSerializer):
     images = ImageSerializer(read_only=True, many=True)
     images_id = serializers.PrimaryKeyRelatedField(write_only=True, many=True, \
-      queryset=UploadImage.objects.all())    
+      queryset=UploadImage.objects.all())
 
     class Meta:
         model = UploadRequest
@@ -17,4 +17,3 @@ class UploadSerializer(serializers.ModelSerializer):
         transformation_request = super(UploadSerializer, self).create(validated_data)
         transformation_request.images.add(*images_id)
         return transformation_request
-        

@@ -4,6 +4,7 @@ from urllib.parse import parse_qsl
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.http.response import HttpResponse
+from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from api.models import UploadImage
 from PIL import Image, ImageFilter
@@ -24,12 +25,17 @@ class MaskFilter(Enum):
     SHARPEN = ImageFilter.SHARPEN
 
 
+@require_http_methods(['GET'])
 def transform_image(request, pk, format):
     instance = UploadImage.objects.get(pk=pk)
     if not format or format not in settings.ALLOWED_IMAGE_FORMATS:
         return HttpResponseRedirect(reverse('uploadimage-detail', kwargs={'pk': pk}))
-    
+
     image = Image.open(instance.original_file)
+    if (format == 'jpg' or format == 'jpeg'):
+        format = 'jpeg'
+        image = image.convert('RGB')
+
     transform_ops = parse_qsl(request.META.get('QUERY_STRING'))
     for op_key, op_value in transform_ops:
         match op_key:
@@ -53,7 +59,7 @@ def transform_image(request, pk, format):
     }, partial=True)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-    
+
     response = HttpResponse(content_type='image/{format}'.format(format=format))
     image.save(response, format)
     return response

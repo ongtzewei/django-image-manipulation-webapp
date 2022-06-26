@@ -1,15 +1,13 @@
 from django.conf import settings
-from PIL import Image
 from rest_framework import status
-from rest_framework.test import APIClient, APITestCase
+from rest_framework.test import APITestCase
 from api.models import UploadImage, UploadRequest
-from api.utils import retrieve_remote_image
 from rest_framework.test import APIRequestFactory
 from api.views.upload import UploadViewSet
 
 class TestLocalUpload(APITestCase):
-    jpg_image = settings.BASE_DIR / 'tests/resources/bay.jpg'
-    jpeg_image = settings.BASE_DIR / 'tests/resources/stock.jpeg'
+    jpeg_image = settings.BASE_DIR / 'tests/resources/bay.jpeg'
+    bmp_image = settings.BASE_DIR / 'tests/resources/gears.bmp'
     png_image = settings.BASE_DIR / 'tests/resources/gears.png'
 
     def setUp(self):
@@ -18,7 +16,7 @@ class TestLocalUpload(APITestCase):
         self.images = [
             self.png_image,
             self.jpeg_image,
-            self.jpg_image,
+            self.bmp_image,
         ]
         return super().setUp()
 
@@ -31,13 +29,13 @@ class TestLocalUpload(APITestCase):
         self.assertNumQueries(1)
         self.assertEqual(UploadImage.objects.count(), 1)
         self.assertEqual(UploadRequest.objects.count(), 1)
-    
+
     def test_upload_multiple_local_images(self):
         fps = []
         for file in self.images:
             fp = open(file, 'rb')
             fps.append(fp)
-        
+
         request = self.factory.post('/api/images/', {'images[]': fps})
         view = UploadViewSet.as_view({'post': 'create'})
         response = view(request)
