@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from api.models import UploadImage
-from api.utils.helpers import Base64ImageField
+from api.utils import Base64ImageField
 
 
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
