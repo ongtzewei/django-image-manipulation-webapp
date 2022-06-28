@@ -61,7 +61,6 @@ class TestImageTransformation(APITestCase):
         response_image = Image.open(BytesIO(response.content))
         diff = ImageChops.difference(self.jpeg_image, response_image)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNumQueries(1)
         assert diff.getbbox() is None
 
     def test_rotate_image(self):
@@ -70,7 +69,6 @@ class TestImageTransformation(APITestCase):
         response_image = Image.open(BytesIO(response.content))
         diff = ImageChops.difference(self.rotated_image, response_image)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNumQueries(1)
         assert diff.getbbox() is None
 
     def test_crop_image(self):
@@ -79,7 +77,6 @@ class TestImageTransformation(APITestCase):
         response_image = Image.open(BytesIO(response.content))
         diff = ImageChops.difference(self.cropped_image, response_image)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNumQueries(1)
         assert diff.getbbox() is None
 
     def test_resize_image(self):
@@ -88,7 +85,6 @@ class TestImageTransformation(APITestCase):
         response_image = Image.open(BytesIO(response.content))
         diff = ImageChops.difference(self.resized_image, response_image)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNumQueries(1)
         assert diff.getbbox() is None
 
     def test_mask_image(self):
@@ -97,7 +93,6 @@ class TestImageTransformation(APITestCase):
         response_image = Image.open(BytesIO(response.content))
         diff = ImageChops.difference(self.masked_image, response_image)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNumQueries(1)
         assert diff.getbbox() is None
 
     def test_multiple_ops(self):
@@ -107,5 +102,4 @@ class TestImageTransformation(APITestCase):
         response_image = Image.open(BytesIO(response.content))
         diff = ImageChops.difference(self.multiops_image, response_image)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertNumQueries(1)
         assert diff.getbbox() is None
